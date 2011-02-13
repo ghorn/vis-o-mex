@@ -28,7 +28,7 @@
 #include <ap_types.h>
 #include <spatial_rotations.h>
 
-#include <../controller/path_follower/path_follower_types.h>
+#include "spline_utils.h"
 
 void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
 {

@@ -26,7 +26,7 @@
 #ifndef __SPLINE_GEOMETRY_VIS_H__
 #define __SPLINE_GEOMETRY_VIS_H__
 
-#include <../controller/path_follower/path_follower_types.h>
+#include "spline_utils.h"
 
 void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan);
 

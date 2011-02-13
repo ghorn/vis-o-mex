@@ -33,8 +33,7 @@
 #include <path_follower_commands.h>
 
 #include "spline_trajectory_vis.h"
-#include <../controller/path_follower/path_follower_types.h>
-#include <../controller/path_follower/traj_spline_data_loader.h>
+#include "spline_utils.h"
 #include <ap_telemetry.h>
 
 

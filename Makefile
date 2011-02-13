@@ -15,6 +15,7 @@ C_SRC = \
 	imagery_prober.c \
 	keyboard_mouse.c \
 	simple_model_vis.c \
+	spline_utils.c \
 	spline_trajectory_vis.c \
 	spline_geometry_vis.c \
 	talking_visualizer.c \
@@ -24,8 +25,7 @@ C_SRC = \
 	wind_vis.c \
 	$(MATHLIBPATH)/spatial_rotations.c \
 	$(MATHLIBPATH)/quat.c \
-	$(MATHLIBPATH)/xyz.c \
-	$(LCMPATH)/../controller/path_follower/traj_spline_data_loader.c
+	$(MATHLIBPATH)/xyz.c
 
 OBJ = $(C_SRC:.c=.o) 
 
