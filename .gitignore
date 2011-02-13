@@ -1,0 +1,4 @@
+*.o
+vis-o-mex
+image_cache/satellite_imagery*
+
