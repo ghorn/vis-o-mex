@@ -25,9 +25,10 @@
 
 #include <GL/gl.h>	// Header File For The OpenGL32 Library
 
-#include "../autopilot/controller/path_follower/path_follower_types.h"
-#include "../autopilot/interface_structs.h"
-#include "../mathlib/spatial_rotations.h"
+#include <ap_types.h>
+#include <spatial_rotations.h>
+
+#include <../controller/path_follower/path_follower_types.h>
 
 void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
 {

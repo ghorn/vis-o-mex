@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 FILE * speech_pipe;
 uint8_t speech_pipe_found;

@@ -26,7 +26,7 @@
 #ifndef __AIRCRAFT_VIS_H__
 #define __AIRCRAFT_VIS_H__
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 #include "visualizer_types.h"
 
 aircraft_t * create_aircraft( float wingspan );

@@ -23,7 +23,7 @@
  * ???
  */
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 void visualizer_say(const char * message);
 void visualizer_talk( const sensors2Estimator_t * const s2e,

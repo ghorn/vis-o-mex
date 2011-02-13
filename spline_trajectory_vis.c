@@ -30,11 +30,11 @@
 #include <string.h>
 #include <math.h>
 
-#include "../autopilot/lcm/path_follower_commands.h"
+#include <path_follower_commands.h>
 
 #include "spline_trajectory_vis.h"
-#include "../autopilot/controller/path_follower/path_follower_types.h"
-#include "../autopilot/controller/path_follower/traj_spline_data_loader.h"
+#include <../controller/path_follower/path_follower_types.h>
+#include <../controller/path_follower/traj_spline_data_loader.h>
 #include <ap_telemetry.h>
 
 

@@ -32,7 +32,7 @@
 #include <ap_telemetry.h>
 
 #include "wind_vis.h"
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 #define NUM_PARTICLES 1000
 

@@ -26,7 +26,7 @@
 #ifndef __VISUALIZER_TYPES_H__
 #define __VISUALIZER_TYPES_H__
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 #define NUM_AC_VIS_HISTORY_POINTS 30
 #define DT (3.0/100.0)

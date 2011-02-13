@@ -28,9 +28,10 @@
 #include <stdio.h>
 #include <math.h>
 
+#include <ap_types.h>
+#include <xyz.h>
+
 #include "visualizer_types.h"
-#include "../autopilot/interface_structs.h"
-#include "../mathlib/xyz.h"
 
 static int
 get_minutes(double time_sec)

@@ -30,9 +30,9 @@
 
 #include <GL/gl.h>	// Header File For The OpenGL32 Library
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
+#include <spatial_rotations.h>
 #include "aircraft_vis.h"
-#include "../mathlib/spatial_rotations.h"
 
 #define RAD2DEG 57.29577951308232
 

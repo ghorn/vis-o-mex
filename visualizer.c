@@ -37,7 +37,8 @@
 #include <sys/time.h>
 #include <time.h>
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
+
 #include "aircraft_vis.h"
 #include "camera_manager.h"
 #include "draw_text.h"

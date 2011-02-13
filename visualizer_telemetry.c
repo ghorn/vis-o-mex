@@ -35,7 +35,7 @@
 #include "aircraft_vis.h"
 #include "tether_vis.h"
 #include "spline_trajectory_vis.h"
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 #include "imagery_manager.h"
 #include <ap_telemetry.h>
 #include <lcm_interface.h>

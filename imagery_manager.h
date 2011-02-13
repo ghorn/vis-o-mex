@@ -29,7 +29,7 @@
 #include <Imlib2.h>
 #include <inttypes.h>
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 #define TILE_UNINITIALIZED 0
 #define TILE_DOWNLOADING   1

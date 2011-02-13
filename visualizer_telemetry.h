@@ -30,7 +30,7 @@
 #include "tether_vis.h"
 #include "spline_trajectory_vis.h"
 #include "spline_geometry_vis.h"
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 /* Set up the telemetry link with pointers to the persistent structs
  * that need updating upon message arrival */

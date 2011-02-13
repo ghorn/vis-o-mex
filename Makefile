@@ -22,17 +22,19 @@ C_SRC = \
 	visualizer.c \
 	visualizer_telemetry.c \
 	wind_vis.c \
-	../mathlib/spatial_rotations.c \
-	../mathlib/quat.c \
-	../mathlib/xyz.c \
-	../autopilot/controller/path_follower/traj_spline_data_loader.c
+	$(MATHLIBPATH)/spatial_rotations.c \
+	$(MATHLIBPATH)/quat.c \
+	$(MATHLIBPATH)/xyz.c \
+	$(LCMPATH)/../controller/path_follower/traj_spline_data_loader.c
 
 OBJ = $(C_SRC:.c=.o) 
 
 WARNINGFLAGS ?= -Wall -Wextra -Werror
 DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
 
-INCLUDES =
+INCLUDES = \
+	-I$(MATHLIBPATH) \
+	-I$(LCMPATH) \
 
 ## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math
 BLAS ?= `bash -c 'if gcc -latlas 2>&1 | grep -q "cannot find -latlas"; then echo \-lgslcblas; else echo \-lcblas \-latlas; fi'`
@@ -53,14 +55,7 @@ else
 	LDFLAGS += -lImlib2
 endif
 
-LCMPATH = ../autopilot/lcm
-
-INCLUDES += -I$(LCMPATH)
-
 CFLAGS ?= $(WARNINGFLAGS) $(DEBUGFLAGS) $(INCLUDES) $(OPTFLAGS) $(FEATURE_FLAGS) -std=gnu99 
-
-
-
 
 
 .PHONY: clean settings 

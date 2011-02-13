@@ -33,7 +33,7 @@
 #include "imagery_manager.h"
 #include "imagery_drawer.h"
 #include "imagery_prober.h"
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 #define MAX_ZOOM_LEVEL 16 // must be <= 21
 #define NUM_SQUARE_RINGS 3

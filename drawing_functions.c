@@ -26,7 +26,7 @@
 
 #include <GL/gl.h>
 
-#include "../autopilot/interface_structs.h"
+#include <ap_types.h>
 
 void
 draw_grid()

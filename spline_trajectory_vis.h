@@ -26,8 +26,6 @@
 #ifndef __SPLINE_TRAJECTORY_VIS_H__
 #define __SPLINE_TRAJECTORY_VIS_H__
 
-#include "../autopilot/controller/path_follower/path_follower_types.h"
-
 void init_spline_trajectory_vis(void);
 void draw_all_spline_trajectories(void);
 
