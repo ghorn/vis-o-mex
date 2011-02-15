@@ -151,24 +151,24 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
   glEnd();
   glBegin(GL_QUADS); // yellow wing top leading edge
   glColor4f(0.85f, 0.85f, 0.0f, ac->alpha);
-  glVertex3f(  0.250*chord,  0.5*wingspan*frac_not_tip, -0.1f);
-  glVertex3f(  0.250*chord, -0.5*wingspan*frac_not_tip, -0.1f);
-  glVertex3f( -0.083*chord, -0.5*wingspan*frac_not_tip, -0.1f);
-  glVertex3f( -0.083*chord,  0.5*wingspan*frac_not_tip, -0.1f);
+  glVertex3f(  0.250*chord,  0.5*wingspan*frac_not_tip, -0.006f*wingspan);
+  glVertex3f(  0.250*chord, -0.5*wingspan*frac_not_tip, -0.006f*wingspan);
+  glVertex3f( -0.083*chord, -0.5*wingspan*frac_not_tip, -0.006f*wingspan);
+  glVertex3f( -0.083*chord,  0.5*wingspan*frac_not_tip, -0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // orange wing bottom right stripes
   glColor4f(1.0f, 0.5f, 0.0f, ac->alpha);
-  glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.4, 0.1f);
-  glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.7, 0.1f);
-  glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.7, 0.1f);
-  glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.4, 0.1f);
+  glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
+  glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
+  glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
+  glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // orange wing bottom left stripes
   glColor4f(1.0f, 0.5f, 0.0f, ac->alpha);
-  glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.4, 0.1f);
-  glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.7, 0.1f);
-  glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.7, 0.1f);
-  glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.4, 0.1f);
+  glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
+  glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
+  glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
+  glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // right wingtip
   glColor4f(0.0f, 1.0f, 0.0f, ac->alpha);
