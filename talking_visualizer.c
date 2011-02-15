@@ -82,10 +82,11 @@ visualizer_say(const char * message)
 
 
 void
-visualizer_talk( const sensors2Estimator_t * const s2e,
+visualizer_talk( const sensors2Estimator_t * const s2e __attribute__((unused)),
                  const est2User_t * const e2u __attribute__((unused)),
-                 const rc_t * const rc)
+                 const rc_t * const rc __attribute__((unused)))
 {
+#ifdef USE_SPEECH
   // gps status
   static uint8_t prev_soln_valid = 123;
   if (prev_soln_valid != s2e->gpsPhys.solution_valid){
@@ -123,4 +124,5 @@ visualizer_talk( const sensors2Estimator_t * const s2e,
     visualizer_say(rc_message);
     old_rc_mode = new_rc_mode;
   }
+#endif
 }

@@ -43,6 +43,8 @@ LDFLAGS ?= -lm -lgsl -lX11 -lglut -lGL -lGLU -llcm $(BLAS)
 
 FEATURE_FLAGS =
 
+#FEATURE_FLAGS +=-DUSE_SPEECH
+
 ifeq ($(UNAME),Darwin)
 	LDFLAGS += -L/opt/local/lib
 	LDFLAGS += -L/usr/local/lib
