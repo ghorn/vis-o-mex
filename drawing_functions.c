@@ -35,7 +35,7 @@ draw_grid()
 
   unsigned dx = 100; // meters per grid line
 
-  double radius = 300;
+  double radius = 1500;
 
   glLineWidth(1.0f);
   // lines which run east/west  
