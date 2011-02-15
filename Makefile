@@ -23,9 +23,9 @@ C_SRC = \
 	visualizer.c \
 	visualizer_telemetry.c \
 	wind_vis.c \
-	$(MATHLIBPATH)/spatial_rotations.c \
-	$(MATHLIBPATH)/quat.c \
-	$(MATHLIBPATH)/xyz.c
+	$(MATHLIB_PATH)/spatial_rotations.c \
+	$(MATHLIB_PATH)/quat.c \
+	$(MATHLIB_PATH)/xyz.c
 
 OBJ = $(C_SRC:.c=.o) 
 
@@ -33,7 +33,7 @@ WARNINGFLAGS ?= -Wall -Wextra -Werror
 DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
 
 INCLUDES = \
-	-I$(MATHLIBPATH) \
+	-I$(MATHLIB_PATH) \
 	-I$(LCMPATH) \
 
 ## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math
