@@ -46,7 +46,7 @@ void
 init_simple_model_vis()
 {
   ap_lcm_subscribe(simple_model_t, &simple_model_handler, NULL);
-  ac = create_aircraft( 20 );
+  ac = create_aircraft( 67 );
 }
 
 void
@@ -55,7 +55,7 @@ draw_simple_model_vis()
   if (!ac->initialized)
     return;
 
-  set_camera_focus( &simple_model.r_n2b_n );
+//  set_camera_focus( &simple_model.r_n2b_n );
 
   draw_aircraft(ac, 0);
   float scale = 20;
