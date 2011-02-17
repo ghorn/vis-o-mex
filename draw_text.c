@@ -175,10 +175,16 @@ draw_text(const rc_t * const rc,
   renderBitmapString(5,330,GLUT_BITMAP_HELVETICA_18,message);
 
   /***** power/energy ******/
-  sprintf(message,"power harvested: %.2f kW", se->power_harvested*0.001);
+  if (se->power_harvested < 1.0e6)
+    sprintf(message,"power harvested: %.2f kW", se->power_harvested*1.0e-3);
+  else
+    sprintf(message,"power harvested: %.2f MW", se->power_harvested*1.0e-6);
   renderBitmapString(5,360,GLUT_BITMAP_HELVETICA_18,message);
   
-  sprintf(message,"energy harvested:  %.2f kJ", se->energy_harvested*0.001);
+  if (se->energy_harvested < 1.0e6)
+    sprintf(message,"energy harvested: %.2f kJ", se->energy_harvested*1.0e-3);
+  else
+    sprintf(message,"energy harvested: %.2f MJ", se->energy_harvested*1.0e-6);
   renderBitmapString(5,390,GLUT_BITMAP_HELVETICA_18, message);
   
   sprintf(message,"conserved quantity: %f", se->conserved_quantity);
