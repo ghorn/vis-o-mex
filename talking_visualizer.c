@@ -77,7 +77,10 @@ visualizer_say(const char * message)
 {
   char system_say_message[200];
   sprintf(system_say_message, "say '%s' &", message);
-  system(system_say_message);
+  int ret = system(system_say_message);
+  if (ret == 10)
+    return;
+  return;
 }
 
 

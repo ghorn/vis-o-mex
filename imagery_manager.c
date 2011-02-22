@@ -293,7 +293,10 @@ start_tile_download( image_tile_t * image_tile)
   char system_call[1024];
   sprintf(system_call, "sh shake_n_bake.sh 'http://maps.google.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=256x256&maptype=satellite&format=png32&sensor=false' %s &", lat, lon, zoom_level, filename);
 
-  system(system_call);
+  int ret = system(system_call);
+  if (ret == 10)
+    return;
+  return;
 }
 
 void
