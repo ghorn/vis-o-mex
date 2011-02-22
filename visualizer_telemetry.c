@@ -30,15 +30,19 @@
 #include <inttypes.h>
 #include <stdio.h>
 
+
+#include <lcm_telemetry_auto.h>
+#include <lcm_interface.h>
+#include <ap_telemetry.h>
+#include <vis_telemetry.h>
+
 #include "visualizer_telemetry.h"
 #include "visualizer_types.h"
 #include "aircraft_vis.h"
 #include "tether_vis.h"
 #include "spline_trajectory_vis.h"
-#include <ap_types.h>
+
 #include "imagery_manager.h"
-#include <ap_telemetry.h>
-#include <lcm_interface.h>
 
 static void
 est2UserHandler(const lcm_recv_buf_t *rbuf __attribute__((unused)), 
@@ -101,7 +105,7 @@ initialize_visualizer_telemetry(spline_geometry_t *spline_geometry,
                                 system_energy_t * se)
 {
 //  ap_lcm_init(NULL);
-  ap_lcm_init("udpm://239.255.76.67:7667?ttl=1"); 
+  lcm_init("udpm://239.255.76.67:7667?ttl=1"); 
 
   ap_lcm_subscribe(est2User_t, &est2UserHandler, e2u);
   ap_lcm_subscribe(pose_t, &pose_handler, ac);
@@ -115,6 +119,8 @@ initialize_visualizer_telemetry(spline_geometry_t *spline_geometry,
 void
 telemetry_periodic(void)
 {
-//  ap_telemetry_send();
+  vis_telemetry_send();
+  lcm_check(vis_lcm.lcm, vis_lcm.fd);
   lcm_check(ap_lcm.lcm, ap_lcm.fd);
+  lcm_check(simple_model_sim_lcm.lcm, simple_model_sim_lcm.fd);
 }

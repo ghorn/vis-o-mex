@@ -29,7 +29,6 @@
 #include <ap_types.h>
 
 #define NUM_AC_VIS_HISTORY_POINTS 30
-#define DT (3.0/100.0)
 #define ALL_TIME_HIGH_SCORE 445 // 7:25
 
 

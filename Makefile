@@ -1,9 +1,11 @@
 PROJ = vis-o-mex
 
 Q ?= @
-CC ?= gcc
 
 UNAME := $(shell uname)
+
+AP_PROJECT_ROOT ?= ..
+MATHLIB_PATH ?= $(AP_PROJECT_ROOT)/mathlib
 
 C_SRC = \
 	aircraft_vis.c \
@@ -34,14 +36,13 @@ DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
 
 INCLUDES = \
 	-I$(MATHLIB_PATH) \
-	-I$(LCMPATH) \
 
 ## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math
 BLAS ?= `bash -c 'if gcc -latlas 2>&1 | grep -q "cannot find -latlas"; then echo \-lgslcblas; else echo \-lcblas \-latlas; fi'`
 
-LDFLAGS ?= -lm -lgsl -lX11 -lglut -lGL -lGLU -llcm $(BLAS)
+LDFLAGS ?= -lm -lgsl -lX11 -lglut -lGL -lGLU $(BLAS)
 
-FEATURE_FLAGS =
+FEATURE_FLAGS = -DDT=\(3.0/100.0\)
 
 #FEATURE_FLAGS +=-DUSE_SPEECH
 
@@ -53,31 +54,35 @@ ifeq ($(UNAME),Darwin)
 	FEATUREFLAGS += -DOSX
 	LDFLAGS += -limlib2
 else
-	CFLAGS += -DLINUX
+	FEATUREFLAGS += -DLINUX
 	LDFLAGS += -lImlib2
+	OPTFLAGS += -O3 -march=native
 endif
 
-CFLAGS ?= $(WARNINGFLAGS) $(DEBUGFLAGS) $(INCLUDES) $(OPTFLAGS) $(FEATURE_FLAGS) -std=gnu99 
+EXTOBJ ?= 
+AUTOBUILD_DIR ?= $(AP_PROJECT_ROOT)/autobuild
+include $(AUTOBUILD_DIR)/includes
 
+CFLAGS ?= $(WARNINGFLAGS) $(DEBUGFLAGS) $(INCLUDES) $(OPTFLAGS) $(FEATURE_FLAGS) -std=gnu99 
+CC ?= gcc
 
 .PHONY: clean settings 
 
 $(PROJ): $(OBJ) $(HDR)
 	@echo LD $@
-	$(Q)$(CC) $(LDFLAGS) $(OBJ) `ls $(LCMPATH)/*.o` -o $@
+	$(Q)$(CC) $(CFLAGS) $(OBJ) $(EXTOBJ) $(LDFLAGS) -o $@ 
 
 %.o : %.c
 	@echo CC $@
-	$(Q)$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@
 
-lcm: 
-	$(MAKE) -C $(LCMPATH) gen
-	$(MAKE) -C $(LCMPATH)
+autobuild:
+	$(MAKE) -C $(AUTOBUILD_DIR)
 
 clean:
 	rm -f $(PROJ)
 	rm -f $(OBJ)
 
 megaclean: clean
-	$(MAKE) -C $(LCMPATH) clean
+	$(MAKE) -C $(AUTOBUILD_DIR) clean
 

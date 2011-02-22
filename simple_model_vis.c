@@ -23,9 +23,10 @@
  */
 
 #include <GL/gl.h>
-#include <ap_types.h>
-#include <ap_telemetry.h>
 #include "camera_manager.h"
+
+#include <simple_model_sim_types.h>
+#include <simple_model_sim_telemetry.h>
 
 #include "aircraft_vis.h"
 
@@ -35,7 +36,7 @@ aircraft_t * ac;
 static void
 simple_model_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
                      const char *channel __attribute__((unused)),
-                     const ap_simple_model_t *msg,
+                     const simple_model_sim_simple_model_t *msg,
                      void *user __attribute__((unused)))
 {
   memcpy( &simple_model, msg, sizeof(simple_model_t));
@@ -45,7 +46,7 @@ simple_model_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
 void
 init_simple_model_vis()
 {
-  ap_lcm_subscribe(simple_model_t, &simple_model_handler, NULL);
+  simple_model_sim_lcm_subscribe(simple_model_t, &simple_model_handler, NULL);
   ac = create_aircraft( 67 );
 }
 
