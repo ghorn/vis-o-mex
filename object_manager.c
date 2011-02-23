@@ -193,12 +193,7 @@ init_object_manager()
   vis_lcm_subscribe_chan(object_manager_init_t, &object_manager_init_handler, NULL, "object_manager_init");
 
   // subscribe to the pose channel
-  // right now you have to do this for every piece of telemetry you send
-  // when we can set channels in telemetry.xml, it'll all get sent over the "pose" channel
-
-  //  vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "pose");
-  vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "vis_example_pose_only_pose_t");
-  vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "ap_pose_t");
+  vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "pose");
 }
 
 
