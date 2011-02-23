@@ -56,7 +56,7 @@ vis_lcm_copy_handler(tether_vis_t);
 void
 init_tether_vis()
 {
-  vis_lcm_subscribe_chan_cp(tether_vis_t, &tether_vis, "sim_tether_vis_t");
+  vis_lcm_subscribe_chan_cp(tether_vis_t, &tether_vis, "sim_tether_vis_t_tether_vis");
 }
 
 

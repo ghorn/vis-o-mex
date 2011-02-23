@@ -139,5 +139,5 @@ void init_wind_vis()
   gsl_rng_set(rng,time(NULL));
 
   // subscribe to true wind message
-  vis_lcm_subscribe_chan(xyz_t, &true_wind_handler, NULL, "sim_xyz_t_true_wind_t");
+  vis_lcm_subscribe_chan(xyz_t, &true_wind_handler, NULL, "sim_xyz_t_wind_ned");
 }
