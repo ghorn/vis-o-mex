@@ -35,14 +35,14 @@
 #include "wind_vis.h"
 
 
-#define NUM_PARTICLES 1000
+#define NUM_PARTICLES 15000
 
-#define MIN_POS_X -400.0
-#define MAX_POS_X  400.0
-#define MIN_POS_Y -400.0
-#define MAX_POS_Y  400.0
-#define MIN_POS_Z -300.0
-#define MAX_POS_Z    0.0
+#define MIN_POS_X -1500.0
+#define MAX_POS_X  1500.0
+#define MIN_POS_Y -1500.0
+#define MAX_POS_Y  1500.0
+#define MIN_POS_Z  -800.0
+#define MAX_POS_Z     0.0
 
 typedef struct {
   xyz_t pos;
