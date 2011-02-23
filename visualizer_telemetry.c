@@ -78,7 +78,7 @@ sensors2EstimatorHandler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
 }
 
 ap_lcm_copy_handler(rc_t);
-ap_lcm_copy_handler(system_energy_t);
+vis_lcm_copy_handler(system_energy_t);
   
 void 
 initialize_visualizer_telemetry(rc_t *rc_ext,
@@ -91,7 +91,7 @@ initialize_visualizer_telemetry(rc_t *rc_ext,
   ap_lcm_subscribe(est2User_t, &est2UserHandler, e2u);
   ap_lcm_subscribe(sensors2Estimator_t, &sensors2EstimatorHandler, s2e_ext);
   ap_lcm_subscribe_cp(rc_t, rc_ext);
-  ap_lcm_subscribe_cp(system_energy_t, se);
+  vis_lcm_subscribe_chan_cp(system_energy_t, se, "sim_system_energy_t");
 }
 
 void
