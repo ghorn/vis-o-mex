@@ -38,7 +38,7 @@ ap_lcm_copy_handler(spline_geometry_t);
 void
 init_spline_geometry()
 {
-  ap_lcm_subscribe_cp(spline_geometry_t, &spline_geometry);
+  ap_lcm_subscribe_chan_cp(spline_geometry_t, &spline_geometry, "ap_spline_geometry_t_geometry");
 }
 
 void
