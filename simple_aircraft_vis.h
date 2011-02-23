@@ -19,21 +19,40 @@
  */
 
 /*
- * aircraft_vis.h 
+ * simple_aircraft_vis.h 
  * Manage aircraft visualizer structs. Draw aircraft.
  */
 
-#ifndef __AIRCRAFT_VIS_H__
-#define __AIRCRAFT_VIS_H__
+#ifndef __SIMPLE_AIRCRAFT_VIS_H__
+#define __SIMPLE_AIRCRAFT_VIS_H__
 
 #include <ap_types.h>
-#include "visualizer_types.h"
 
-aircraft_t * create_aircraft( float wingspan );
-void free_aircraft(aircraft_t * ac);
-void update_aircraft_pose(xyz_t * pos, quat_t * q_n2b, aircraft_t * ac);
-void draw_aircraft( aircraft_t * ac, int draw_at_origin);
-void draw_aircraft_trails( aircraft_t * ac );
+#define NUM_AC_VIS_HISTORY_POINTS 30
+
+typedef struct {
+  uint8_t initialized;
+  uint16_t index;
+
+  // core
+  simple_aircraft_params_t params;
+  
+  // derived
+  float chord;
+
+  euler_t e_n2b;
+  quat_t q_n2b;
+  xyz_t pos[NUM_AC_VIS_HISTORY_POINTS];
+  xyz_t l_wingtip[NUM_AC_VIS_HISTORY_POINTS];
+  xyz_t r_wingtip[NUM_AC_VIS_HISTORY_POINTS];
+  
+} simple_aircraft_t;
 
 
-#endif // __AIRCRAFT_VIS_H__
+simple_aircraft_t * alloc_simple_aircraft( const simple_aircraft_params_t * const params );
+void free_simple_aircraft(simple_aircraft_t * ac);
+void update_aircraft_pose(xyz_t * pos, quat_t * q_n2b, simple_aircraft_t * ac);
+void draw_simple_aircraft( const simple_aircraft_t * const ac, int draw_at_origin);
+void draw_simple_aircraft_trails( const simple_aircraft_t * const ac );
+
+#endif // __SIMPLE_AIRCRAFT_VIS_H__

@@ -19,7 +19,7 @@
  */
 
 /*
- * aircraft_vis.c
+ * simple_aircraft_vis.c
  * Manage aircraft visualizer structs. Draw aircraft.
  */
 
@@ -28,44 +28,43 @@
 #include <string.h>
 #include <math.h>
 
-#include <GL/gl.h>	// Header File For The OpenGL32 Library
+#include <GL/gl.h>
 
 #include <ap_types.h>
 #include <spatial_rotations.h>
-#include "aircraft_vis.h"
+#include "simple_aircraft_vis.h"
 
 #define RAD2DEG 57.29577951308232
 
 // set history all to first point
-aircraft_t *
-create_aircraft(float wingspan)
+simple_aircraft_t *
+alloc_simple_aircraft( const simple_aircraft_params_t * const params )
 {
-  aircraft_t * ac;
-  if ( (ac = malloc(sizeof(aircraft_t))) == NULL){
+  simple_aircraft_t * ac;
+  if ( (ac = malloc(sizeof(simple_aircraft_t))) == NULL){
     printf("aircraft malloc fail\n");
     exit(1);
   }
 
   ac->initialized = 0;
-  ac->aspect_ratio = 6;
-  ac->wingspan = wingspan;
-  ac->chord = ac->wingspan/ac->aspect_ratio;
-  ac->alpha = 1.0;
+  memcpy(&ac->params, params, sizeof(simple_aircraft_params_t));
+
+  ac->chord = ac->params.wingspan/ac->params.aspect_ratio;
 
   return ac;
 }
 
 void
-free_aircraft(aircraft_t * ac)
+free_simple_aircraft(simple_aircraft_t * ac)
 {
   free(ac);
 }
 
-void
-set_wingtip_positions( aircraft_t * ac )
+static void
+set_wingtip_positions( simple_aircraft_t * ac )
 {
-  xyz_t l_wingtip = {0.0, -0.5*ac->wingspan, 0.0};
-  xyz_t r_wingtip = {0.0,  0.5*ac->wingspan, 0.0};
+  xyz_t l_wingtip = {0.0, -0.5*ac->params.wingspan, 0.0};
+  xyz_t r_wingtip = {0.0,  0.5*ac->params.wingspan, 0.0};
   rot_vec_by_quat_b2a( &(ac->l_wingtip[ac->index]), &(ac->q_n2b), &l_wingtip);
   rot_vec_by_quat_b2a( &(ac->r_wingtip[ac->index]), &(ac->q_n2b), &r_wingtip);
 
@@ -78,7 +77,7 @@ set_wingtip_positions( aircraft_t * ac )
 }
 
 void
-update_aircraft_pose(xyz_t * pos, quat_t * q_n2b, aircraft_t * ac)
+update_aircraft_pose(xyz_t * pos, quat_t * q_n2b, simple_aircraft_t * ac)
 {
   // first time initialization
   if (ac->initialized == 0){
@@ -111,7 +110,7 @@ update_aircraft_pose(xyz_t * pos, quat_t * q_n2b, aircraft_t * ac)
 }
 
 void
-draw_aircraft( aircraft_t * ac, int draw_at_origin)
+draw_simple_aircraft( const simple_aircraft_t * const ac, int draw_at_origin)
 {
   if (ac == NULL){
     printf("draw_aircraft(ac) called, but ac == NULL\n");
@@ -127,12 +126,12 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
   float wingspan, chord;
 
   if (draw_at_origin == 1){
-    wingspan = ac->wingspan*1.5;
+    wingspan = ac->params.wingspan*1.5;
     glTranslatef( 0.0f, 0.0f, -wingspan);
-    chord = wingspan/ac->aspect_ratio;
+    chord = wingspan/ac->params.aspect_ratio;
   } else {
     glTranslatef((float)(ac->pos[ac->index].x),(float)(ac->pos[ac->index].y),(float)(ac->pos[ac->index].z));
-    wingspan = ac->wingspan;
+    wingspan = ac->params.wingspan;
     chord = ac->chord;
   }
 
@@ -143,42 +142,42 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
   // wing with colored wingtips
   float frac_not_tip = 0.7f;
   glBegin(GL_QUADS); // most of the wing
-  glColor4f(0.15f, 0.15f, 1.0f, ac->alpha);
+  glColor4f(0.15f, 0.15f, 1.0f, ac->params.alpha);
   glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip, 0.0f);
   glEnd();
   glBegin(GL_QUADS); // yellow wing top leading edge
-  glColor4f(0.85f, 0.85f, 0.0f, ac->alpha);
+  glColor4f(0.85f, 0.85f, 0.0f, ac->params.alpha);
   glVertex3f(  0.250*chord,  0.5*wingspan*frac_not_tip, -0.006f*wingspan);
   glVertex3f(  0.250*chord, -0.5*wingspan*frac_not_tip, -0.006f*wingspan);
   glVertex3f( -0.083*chord, -0.5*wingspan*frac_not_tip, -0.006f*wingspan);
   glVertex3f( -0.083*chord,  0.5*wingspan*frac_not_tip, -0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // orange wing bottom right stripes
-  glColor4f(1.0f, 0.5f, 0.0f, ac->alpha);
+  glColor4f(1.0f, 0.5f, 0.0f, ac->params.alpha);
   glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
   glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
   glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // orange wing bottom left stripes
-  glColor4f(1.0f, 0.5f, 0.0f, ac->alpha);
+  glColor4f(1.0f, 0.5f, 0.0f, ac->params.alpha);
   glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glVertex3f(  0.25*chord, -0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
   glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.7, 0.006f*wingspan);
   glVertex3f( -0.75*chord, -0.5*wingspan*frac_not_tip*0.4, 0.006f*wingspan);
   glEnd();
   glBegin(GL_QUADS); // right wingtip
-  glColor4f(0.0f, 1.0f, 0.0f, ac->alpha);
+  glColor4f(0.0f, 1.0f, 0.0f, ac->params.alpha);
   glVertex3f(  0.25*chord,  0.5*wingspan, 0.0f);
   glVertex3f(  0.25*chord,  0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f( -0.75*chord,  0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f( -0.75*chord,  0.5*wingspan, 0.0f);
   glEnd();
   glBegin(GL_QUADS); // left wingtip
-  glColor4f(1.0f, 0.0f, 0.0f, ac->alpha);
+  glColor4f(1.0f, 0.0f, 0.0f, ac->params.alpha);
   glVertex3f(  0.25*chord,  -0.5*wingspan, 0.0f);
   glVertex3f(  0.25*chord,  -0.5*wingspan*frac_not_tip, 0.0f);
   glVertex3f( -0.75*chord,  -0.5*wingspan*frac_not_tip, 0.0f);
@@ -187,7 +186,7 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
 
   // fuselage
   float fuselage_scale = 0.5;
-  glColor4f(0.15f, 0.15f, 1.0f, ac->alpha);
+  glColor4f(0.15f, 0.15f, 1.0f, ac->params.alpha);
   glBegin(GL_QUADS);
   glVertex3f(  0.25*wingspan,  0.0f, -0.5*fuselage_scale*chord);
   glVertex3f(  0.25*wingspan,  0.0f,  0.5*fuselage_scale*chord);
@@ -205,7 +204,7 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
   float tail_chord_scale = 0.8;
   // horizontal stabilizer
   glBegin(GL_QUADS);
-  glColor4f(0.15f, 0.15f, 1.0f, ac->alpha);
+  glColor4f(0.15f, 0.15f, 1.0f, ac->params.alpha);
   glVertex3f(  -0.75*wingspan + chord*tail_chord_scale,   0.5*tail_wingspan_scale*wingspan, 0.0f);
   glVertex3f(  -0.75*wingspan + chord*tail_chord_scale,  -0.5*tail_wingspan_scale*wingspan, 0.0f);
   glVertex3f(  -0.75*wingspan,  -0.5*tail_wingspan_scale*wingspan, 0.0f);
@@ -214,7 +213,7 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
 
   // vertical stabilizer
   glBegin(GL_QUADS);
-  glColor4f(0.0f, 0.5f, 1.0f, ac->alpha);
+  glColor4f(0.0f, 0.5f, 1.0f, ac->params.alpha);
   glVertex3f(  -0.75*wingspan + chord*tail_chord_scale, 0.0f, -0.5*tail_wingspan_scale*wingspan);
   glVertex3f(  -0.75*wingspan + chord*tail_chord_scale, 0.0f, 0.0f);
   glVertex3f(  -0.75*wingspan, 0.0f, 0.0f);
@@ -235,7 +234,7 @@ draw_aircraft( aircraft_t * ac, int draw_at_origin)
 
 
 void
-draw_path_fade( xyz_t * xyz, int index, float R, float G, float B, float A, float width)
+draw_path_fade( const xyz_t * const xyz, const int index, float R, float G, float B, float A, const float width)
 {
   glPushMatrix();
 
@@ -260,15 +259,13 @@ draw_path_fade( xyz_t * xyz, int index, float R, float G, float B, float A, floa
   glLineWidth(1.0f);
 }
 
-
 void
-draw_aircraft_trails( aircraft_t * ac )
+draw_simple_aircraft_trails( const simple_aircraft_t * const ac )
 {
   if (ac->initialized == 0)
     return;
 
-  draw_path_fade( ac->pos, ac->index, 1.0f,0.0f,0.0f,1.0f, 0.1*ac->wingspan);
-  draw_path_fade( ac->l_wingtip, ac->index, 0.952941f, 0.050980f, 0.964706f, 0.784314f, 0.1*ac->wingspan);
-  draw_path_fade( ac->r_wingtip, ac->index, 0.952941f, 0.050980f, 0.964706f, 0.784314f, 0.1*ac->wingspan);
-
+  draw_path_fade( ac->pos, ac->index, 1.0f,0.0f,0.0f,1.0f, 0.1*ac->params.wingspan);
+  draw_path_fade( ac->l_wingtip, ac->index, 0.952941f, 0.050980f, 0.964706f, 0.784314f, 0.1*ac->params.wingspan);
+  draw_path_fade( ac->r_wingtip, ac->index, 0.952941f, 0.050980f, 0.964706f, 0.784314f, 0.1*ac->params.wingspan);
 }

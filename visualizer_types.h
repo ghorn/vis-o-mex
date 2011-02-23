@@ -28,29 +28,6 @@
 
 #include <ap_types.h>
 
-#define NUM_AC_VIS_HISTORY_POINTS 30
 #define ALL_TIME_HIGH_SCORE 445 // 7:25
-
-
-typedef struct {
-  uint8_t initialized;
-  uint16_t index;
-
-  // core
-  float wingspan;
-  float aspect_ratio;
-  float alpha;
-  
-  // derived
-  float chord;
-
-  euler_t e_n2b;
-  quat_t q_n2b;
-  xyz_t pos[NUM_AC_VIS_HISTORY_POINTS];
-  xyz_t l_wingtip[NUM_AC_VIS_HISTORY_POINTS];
-  xyz_t r_wingtip[NUM_AC_VIS_HISTORY_POINTS];
-  
-} aircraft_t;
-
 
 #endif // __VISUALIZER_TYPES_H__

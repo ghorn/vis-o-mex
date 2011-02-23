@@ -28,10 +28,10 @@
 #include <simple_model_sim_types.h>
 #include <simple_model_sim_telemetry.h>
 
-#include "aircraft_vis.h"
+#include "simple_aircraft_vis.h"
 
 simple_model_t simple_model;
-aircraft_t * ac;
+simple_aircraft_t * ac;
 
 static void
 simple_model_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
@@ -47,7 +47,12 @@ void
 init_simple_model_vis()
 {
   simple_model_sim_lcm_subscribe(simple_model_t, &simple_model_handler, NULL);
-  ac = create_aircraft( 67 );
+  simple_aircraft_params_t params = {
+    .wingspan = 10,
+    .aspect_ratio = 6,
+    .alpha = 1
+  };
+  ac = alloc_simple_aircraft( &params );
 }
 
 void
@@ -58,7 +63,7 @@ draw_simple_model_vis()
 
 //  set_camera_focus( &simple_model.r_n2b_n );
 
-  draw_aircraft(ac, 0);
+  draw_simple_aircraft(ac, 0);
   float scale = 20;
 
   glPushMatrix();

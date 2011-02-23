@@ -19,17 +19,16 @@
  */
 
 /*
- * tether_vis.h
- * Manage tether visualization structs. Draw tether.
+ * object_manager.h
+ * Keeps track of all objects (aircraft only right now) and their properties,
+ * draws them all on command
  */
 
-#ifndef __TETHER_VIS_H__
-#define __TETHER_VIS_H__
+#ifndef __OBJECT_MANAGER_H__
+#define __OBJECT_MANAGER_H__
 
-#include <inttypes.h>
-#include "visualizer_types.h"
+void init_object_manager(void);
+void draw_object_manager_objects(void);
 
-void init_tether_vis(void);
-void draw_tether(void);
+#endif // __OBJECT_MANAGER_H__
 
-#endif // __TETHER_VIS_H__

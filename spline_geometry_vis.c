@@ -25,12 +25,24 @@
 
 #include <GL/gl.h>	// Header File For The OpenGL32 Library
 
+#include <ap_telemetry.h>
 #include <ap_types.h>
 #include <spatial_rotations.h>
 
 #include "spline_utils.h"
 
-void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
+spline_geometry_t spline_geometry;
+
+ap_lcm_copy_handler(spline_geometry_t);
+
+void
+init_spline_geometry()
+{
+  ap_lcm_subscribe_cp(spline_geometry_t, &spline_geometry);
+}
+
+void
+draw_spline_geometry(float wingspan)
 {
   float scale = 2*wingspan;
 
@@ -39,37 +51,37 @@ void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
 
   glLineWidth(1.0f);
 
-  glTranslatef( spline_geometry->r_n2s_n.x, spline_geometry->r_n2s_n.y, spline_geometry->r_n2s_n.z );
+  glTranslatef( spline_geometry.r_n2s_n.x, spline_geometry.r_n2s_n.y, spline_geometry.r_n2s_n.z );
   
   glColor3f(1.0f,0.0f,0.0f);
   glBegin(GL_LINE_STRIP);	
   glVertex3f(0.0f,0.0f,0.0f);
-  glVertex3f( scale*spline_geometry->sx.x, scale*spline_geometry->sx.y, scale*spline_geometry->sx.z);
+  glVertex3f( scale*spline_geometry.sx.x, scale*spline_geometry.sx.y, scale*spline_geometry.sx.z);
   glEnd();
 
   glColor3f(0.0f,1.0f,0.0f);
   glBegin(GL_LINE_STRIP);	
   glVertex3f(0.0f,0.0f,0.0f);
-  glVertex3f( scale*spline_geometry->sy.x, scale*spline_geometry->sy.y, scale*spline_geometry->sy.z);
+  glVertex3f( scale*spline_geometry.sy.x, scale*spline_geometry.sy.y, scale*spline_geometry.sy.z);
   glEnd();
 
   glColor3f(0.0f,0.0f,1.0f);
   glBegin(GL_LINE_STRIP);	
   glVertex3f(0.0f,0.0f,0.0f);
-  glVertex3f( scale*spline_geometry->sz.x, scale*spline_geometry->sz.y, scale*spline_geometry->sz.z);
+  glVertex3f( scale*spline_geometry.sz.x, scale*spline_geometry.sz.y, scale*spline_geometry.sz.z);
   glEnd();
 
   glPopMatrix();
 
   double R_n2c[9];
-  dcm_of_quat_a2b( R_n2c, &(spline_geometry->q_n2c));
+  dcm_of_quat_a2b( R_n2c, &(spline_geometry.q_n2c));
 
   // draw command axes
   glPushMatrix();
 
   glLineWidth(1.0f);
 
-  glTranslatef( spline_geometry->r_n2c_n.x, spline_geometry->r_n2c_n.y, spline_geometry->r_n2c_n.z );
+  glTranslatef( spline_geometry.r_n2c_n.x, spline_geometry.r_n2c_n.y, spline_geometry.r_n2c_n.z );
   
   glColor3f(1.0f,0.0f,0.0f);
   glBegin(GL_LINE_STRIP);	
@@ -91,7 +103,6 @@ void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
 
   glPopMatrix();
 
-
   glLineWidth(1.0f);
 
   // draw carrot
@@ -99,8 +110,7 @@ void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan)
   glPushMatrix();
   glBegin(GL_POINTS);
   glColor4f( 0.9f, 0.7f, 0.3f, 1.0f);
-  glVertex3f( spline_geometry->r_n2rabbit_n.x, spline_geometry->r_n2rabbit_n.y, spline_geometry->r_n2rabbit_n.z );
+  glVertex3f( spline_geometry.r_n2rabbit_n.x, spline_geometry.r_n2rabbit_n.y, spline_geometry.r_n2rabbit_n.z );
   glEnd();
   glPopMatrix();
-
 }

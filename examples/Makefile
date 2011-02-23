@@ -1,4 +1,4 @@
-PROJ = vis-o-mex
+PROJ = init_and_draw_simple_aircraft
 
 Q ?= @
 
@@ -7,36 +7,16 @@ UNAME := $(shell uname)
 AP_PROJECT_ROOT ?= ..
 
 C_SRC = \
-	camera_manager.c \
-	draw_text.c \
-	drawing_functions.c \
-	imagery_drawer.c \
-	imagery_manager.c \
-	imagery_prober.c \
-	keyboard_mouse.c \
-	object_manager.c \
-	simple_aircraft_vis.c \
-	simple_model_vis.c \
-	spline_utils.c \
-	spline_trajectory_vis.c \
-	spline_geometry_vis.c \
-	talking_visualizer.c \
-	tether_vis.c \
-	visualizer.c \
-	visualizer_telemetry.c \
-	wind_vis.c
+	init_and_draw_simple_aircraft.c
 
 OBJ = $(C_SRC:.c=.o) 
 
 WARNINGFLAGS ?= -Wall -Wextra -Werror
 DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
 
-## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math
-BLAS ?= `bash -c 'if gcc -latlas 2>&1 | grep -q "cannot find -latlas"; then echo \-lgslcblas; else echo \-lcblas \-latlas; fi'`
+LDFLAGS ?= -lm
 
-LDFLAGS ?= -lm -lgsl -lX11 -lglut -lGL -lGLU $(BLAS)
-
-FEATURE_FLAGS = -DDT=\(3.0/100.0\)
+FEATURE_FLAGS = -DDT=0.01
 
 #FEATURE_FLAGS +=-DUSE_SPEECH
 
@@ -46,10 +26,8 @@ ifeq ($(UNAME),Darwin)
 	INCLUDES += -I/opt/local/include
 	INCLUDES += -isystem /usr/local/include
 	FEATUREFLAGS += -DOSX
-	LDFLAGS += -limlib2
 else
 	FEATUREFLAGS += -DLINUX
-	LDFLAGS += -lImlib2
 	OPTFLAGS += -O3 -march=native
 endif
 

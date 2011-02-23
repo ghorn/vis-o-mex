@@ -28,6 +28,7 @@
 
 #include "spline_utils.h"
 
-void draw_spline_geometry(spline_geometry_t * spline_geometry, float wingspan);
+void init_spline_geometry(void);
+void draw_spline_geometry(float wingspan);
 
 #endif //f __SPLINE_GEOMETRY_VIS_H__

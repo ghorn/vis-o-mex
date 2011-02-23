@@ -39,13 +39,14 @@
 
 #include <ap_types.h>
 
-#include "aircraft_vis.h"
 #include "camera_manager.h"
 #include "draw_text.h"
 #include "drawing_functions.h"
 #include "imagery_manager.h"
 #include "keyboard_mouse.h"
+#include "object_manager.h"
 #include "talking_visualizer.h"
+#include "simple_aircraft_vis.h"
 #include "simple_model_vis.h"
 #include "spline_geometry_vis.h"
 #include "spline_trajectory_vis.h"
@@ -149,19 +150,18 @@ void
 draw_scene()
 {
   static int first_run = 1;
-  static aircraft_t * ac;
-  static tether_vis_t tether_vis;
-  static spline_geometry_t spline_geometry;
   static rc_t rc;
   static est2User_t e2u;
   static sensors2Estimator_t s2e;
   static system_energy_t se;
 
   if (first_run == 1){
-    ac = create_aircraft(11.0);
     first_run = 0;
     /* set up telemetry stream */
-    initialize_visualizer_telemetry(&spline_geometry, &rc, &e2u, &s2e, ac, &tether_vis, &se);
+    initialize_visualizer_telemetry(&rc, &e2u, &s2e, &se);
+    init_object_manager();
+    init_spline_geometry();
+    init_tether_vis();
     init_spline_trajectory_vis();
     init_wind_vis();
     init_simple_model_vis();
@@ -178,13 +178,11 @@ draw_scene()
   glRotatef( 90.0f, 1.0f, 0.0f, 0.0f);
 
   draw_grid();
-  draw_tether(&tether_vis);
+  draw_object_manager_objects();
+  draw_tether();
   draw_axes_from_euler(0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,30.0f,8.0f); // origin
-  draw_aircraft( ac, 0 );
-  draw_aircraft( ac, 1 );
-  draw_aircraft_trails( ac );
   draw_all_spline_trajectories();
-  draw_spline_geometry( &spline_geometry, ac->wingspan );
+  draw_spline_geometry( 10 );
   draw_wind_est( &e2u );
   draw_wind_vis( DT );
   draw_simple_model_vis();

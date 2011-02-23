@@ -26,21 +26,16 @@
 #ifndef __VISUALIZER_TELEMETRY_H__
 #define __VISUALIZER_TELEMETRY_H__
 
-#include "aircraft_vis.h"
-#include "tether_vis.h"
 #include "spline_trajectory_vis.h"
 #include "spline_geometry_vis.h"
 #include <ap_types.h>
 
 /* Set up the telemetry link with pointers to the persistent structs
  * that need updating upon message arrival */
-void 
-initialize_visualizer_telemetry(spline_geometry_t *spline_geometry,
-                                rc_t *rc_ext,
+void
+initialize_visualizer_telemetry(rc_t *rc_ext,
                                 est2User_t *e2u_ext,
                                 sensors2Estimator_t *s2e_ext,
-                                aircraft_t *ac,
-                                tether_vis_t * tether_vis,
                                 system_energy_t * se);
 
 void

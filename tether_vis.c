@@ -30,8 +30,12 @@
 #include <inttypes.h>
 #include <GL/gl.h>	// Header File For The OpenGL32 Library
 
+#include <ap_telemetry.h>
+
 #include "tether_vis.h"
 #include "imagery_drawer.h" // for set_imagery_transparency()
+
+tether_vis_t tether_vis;
 
 float
 map_tension_to_red01( float tension_newtons )
@@ -47,22 +51,31 @@ map_tension_to_red01( float tension_newtons )
   return red;
 }
 
+ap_lcm_copy_handler(tether_vis_t);
+
 void
-draw_tether( tether_vis_t * tether_vis)
+init_tether_vis()
+{
+  ap_lcm_subscribe_cp(tether_vis_t, &tether_vis);
+}
+
+
+void
+draw_tether()
 {
   glPushMatrix();
 
   int num_masses_underground = 0;
 
   glBegin(GL_LINE_STRIP);
-  float red = map_tension_to_red01( tether_vis->tension[0] );
+  float red = map_tension_to_red01( tether_vis.tension[0] );
   glColor4f( red , 0.0f, 1.0f - red, 1.0f);
   glVertex3f( 0.0f, 0.0f, 0.0f );
-  for (int k=0; k<tether_vis->num_masses; k++){
-    red = map_tension_to_red01( tether_vis->tension[k] );
+  for (int k=0; k<tether_vis.num_masses; k++){
+    red = map_tension_to_red01( tether_vis.tension[k] );
     glColor4f( red , 0.0f, 1.0f - red, 1.0f);
-    glVertex3f( (tether_vis->x)[k], (tether_vis->y)[k], (tether_vis->z)[k]);
-    if ( (tether_vis->z)[k] > 0 )
+    glVertex3f( (tether_vis.x)[k], (tether_vis.y)[k], (tether_vis.z)[k]);
+    if ( (tether_vis.z)[k] > 0 )
       num_masses_underground++;
   }
   glEnd();
@@ -70,15 +83,15 @@ draw_tether( tether_vis_t * tether_vis)
   glPointSize( 4 );
   glBegin(GL_POINTS);
   glColor4f( 0.0f, 1.0f, 0.0f, 0.4f );
-  for (int k=0; k<tether_vis->num_masses-1; k++){
-    glVertex3f( (tether_vis->x)[k], (tether_vis->y)[k], (tether_vis->z)[k]);
+  for (int k=0; k<tether_vis.num_masses-1; k++){
+    glVertex3f( (tether_vis.x)[k], (tether_vis.y)[k], (tether_vis.z)[k]);
   }
   glEnd();
 
   // alpha == 1 for no masses underground
   // alpha == min_alpha for all masses underground
   float min_alpha = 0.6f;
-  set_imagery_transparency( (min_alpha - 1)/tether_vis->num_masses*num_masses_underground + 1);
+  set_imagery_transparency( (min_alpha - 1)/tether_vis.num_masses*num_masses_underground + 1);
   
   glPopMatrix();
 }
