@@ -28,11 +28,12 @@
 #include <gsl/gsl_randist.h>
 #include <math.h>
 #include <time.h> // for random seed
-#include <ap_types.h>
-#include <ap_telemetry.h>
+
+#include <vis_telemetry.h>
+#include <vis_types.h>
 
 #include "wind_vis.h"
-#include <ap_types.h>
+
 
 #define NUM_PARTICLES 1000
 
@@ -67,10 +68,10 @@ static void spawn_particle(dust_particle_t * particle)
 static void
 true_wind_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)), 
                   const char *channel __attribute__((unused)), 
-                  const ap_true_wind_t *msg, 
+                  const vis_xyz_t *msg, 
                   void *user __attribute__((unused)))
 {
-  memcpy( &true_wind, &(msg->vel_ned), sizeof(xyz_t) );
+  memcpy( &true_wind, msg, sizeof(xyz_t) );
 
   // initialize particles upon first wind message
   if (got_first_wind_message == 0)
@@ -138,5 +139,5 @@ void init_wind_vis()
   gsl_rng_set(rng,time(NULL));
 
   // subscribe to true wind message
-  ap_lcm_subscribe_chan(true_wind_t, &true_wind_handler, NULL, "ap_true_wind_t");
+  vis_lcm_subscribe_chan(xyz_t, &true_wind_handler, NULL, "sim_xyz_t_true_wind_t");
 }

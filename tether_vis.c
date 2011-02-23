@@ -30,7 +30,7 @@
 #include <inttypes.h>
 #include <GL/gl.h>	// Header File For The OpenGL32 Library
 
-#include <ap_telemetry.h>
+#include <vis_telemetry.h>
 
 #include "tether_vis.h"
 #include "imagery_drawer.h" // for set_imagery_transparency()
@@ -51,12 +51,12 @@ map_tension_to_red01( float tension_newtons )
   return red;
 }
 
-ap_lcm_copy_handler(tether_vis_t);
+vis_lcm_copy_handler(tether_vis_t);
 
 void
 init_tether_vis()
 {
-  ap_lcm_subscribe_cp(tether_vis_t, &tether_vis);
+  vis_lcm_subscribe_chan_cp(tether_vis_t, &tether_vis, "sim_tether_vis_t");
 }
 
 
