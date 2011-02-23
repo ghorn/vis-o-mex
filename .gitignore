@@ -1,4 +1,4 @@
 *.o
 vis-o-mex
 image_cache/satellite_imagery*
-
+examples/init_and_draw_simple_aircraft
