@@ -40,9 +40,14 @@ tether_vis_t tether_vis;
 float
 map_tension_to_red01( float tension_newtons )
 {
-  float max_tension_lbs = 1000.0f;
-  float min_tension_lbs = 0.0f;
+  static float max_tension_lbs = 0.0f;
+  static float min_tension_lbs = 0.0f;
   float tension_lbs = tension_newtons*0.224808943;
+  if (tension_lbs > max_tension_lbs)
+    max_tension_lbs = tension_lbs;
+  if (tension_lbs < min_tension_lbs)
+    min_tension_lbs = tension_lbs;
+
   float red = min_tension_lbs + tension_lbs/(max_tension_lbs-min_tension_lbs);
   if (red < 0.0f)
     red = 0.0f;
