@@ -73,9 +73,7 @@ draw_tether()
   int num_masses_underground = 0;
 
   glBegin(GL_LINE_STRIP);
-  float red = map_tension_to_red01( tether_vis.tension[0] );
-  glColor4f( red , 0.0f, 1.0f - red, 1.0f);
-  glVertex3f( 0.0f, 0.0f, 0.0f );
+  float red;
   for (int k=0; k<tether_vis.num_masses; k++){
     red = map_tension_to_red01( tether_vis.tension[k] );
     glColor4f( red , 0.0f, 1.0f - red, 1.0f);
