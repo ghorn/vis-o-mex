@@ -119,15 +119,15 @@ update_imagery_origin(const gpsPhys_t * const gpsPhys)
   if (gpsPhys->solution_valid == 0)
     return;
 
-  double dlat = fabs(lat0 - gpsPhys->lat0);
-  double dlon = fabs(lon0 - gpsPhys->lon0);
-  double dalt = fabs(alt0 - gpsPhys->alt0);
+  double dlat = fabs(lat0 - gpsPhys->lla0.lat);
+  double dlon = fabs(lon0 - gpsPhys->lla0.lon);
+  double dalt = fabs(alt0 - gpsPhys->lla0.alt);
   double originnorm = sqrt(dlat*dlat + dlon*dlon + dalt*dalt);
 
   if (originnorm > EPSILON) {
-    lat0 = gpsPhys->lat0;
-    lon0 = gpsPhys->lon0;
-    alt0 = gpsPhys->alt0;
+    lat0 = gpsPhys->lla0.lat;
+    lon0 = gpsPhys->lla0.lon;
+    alt0 = gpsPhys->lla0.alt;
     printf("gps origin lat0: %.9f, lon0: %.9f, alt0: %.2f\n", lat0, lon0, alt0);
     if (got_lla_origin == 1){
       printf("gps lla origin changed by %lf (2-norm{rad,rad,m}),"
