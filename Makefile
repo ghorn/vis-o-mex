@@ -27,8 +27,7 @@ C_SRC = \
 	wind_vis.c
 
 OBJ = $(C_SRC:.c=.o) 
-
-WARNINGFLAGS ?= -Wall -Wextra -Werror
+WARNINGFLAGS ?= -Wall -Wextra -Werror -Wshadow
 DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
 
 ## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math

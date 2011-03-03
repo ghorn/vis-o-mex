@@ -272,9 +272,9 @@ load_tile_from_cache( image_tile_t * image_tile)
 }
 
 void
-filename_of_ix_iy_zoom(char * filename, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level)
+filename_of_ix_iy_zoom(char * filename, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level_)
 {
-  sprintf(filename, "image_cache/satellite_imagery_zoom_%d_ix_%d_iy_%d.png", zoom_level, ix, iy);
+  sprintf(filename, "image_cache/satellite_imagery_zoom_%d_ix_%d_iy_%d.png", zoom_level_, ix, iy);
 }
 
 void
@@ -300,17 +300,17 @@ start_tile_download( image_tile_t * image_tile)
 }
 
 void
-ix_iy_from_lat_lon_zoom( uint32_t * ix, uint32_t * iy, const double lat, const double lon, const uint8_t zoom_level)
+ix_iy_from_lat_lon_zoom( uint32_t * ix, uint32_t * iy, const double lat, const double lon, const uint8_t zoom_level_)
 {
- *ix = (lat +  90.0) / 180.0 * (1 << zoom_level );
- *iy = (lon + 180.0) / 360.0 * (1 << zoom_level );
+ *ix = (lat +  90.0) / 180.0 * (1 << zoom_level_ );
+ *iy = (lon + 180.0) / 360.0 * (1 << zoom_level_ );
 
 }
 
 void
-lat_lon_centered_from_ix_iy_zoom( double * lat, double * lon, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level)
+lat_lon_centered_from_ix_iy_zoom( double * lat, double * lon, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level_)
 {
-  int num_segments = (1 << zoom_level);
+  int num_segments = (1 << zoom_level_);
   double lat_degrees_per_segment = 180.0/num_segments;
   *lat = lat_degrees_per_segment*(ix + 0.5) - 90.0;
   double lon_degrees_per_segment = 360.0/num_segments;

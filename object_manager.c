@@ -110,19 +110,19 @@ object_manager_init_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
   printf("received object_manager_init, "
          "name: %s, id: %d, type: %d\n", msg->name, msg->id, msg->type);
 
-  int index = index_from_object_id(msg->id);
+  int obj_index = index_from_object_id(msg->id);
 
   // if not yet in list, then add to list
-  if (index == -1){
-    index = get_first_free_index();
-    if (index == -1){
+  if (obj_index == -1){
+    obj_index = get_first_free_index();
+    if (obj_index == -1){
       printf("object manager list of objects full :(\n");
       exit(1);
     }
     
     printf("object allocating\n");
 
-    vis_object_item_t * vis_obj = &(list_of_objects[index]);
+    vis_object_item_t * vis_obj = &(list_of_objects[obj_index]);
 
     memcpy( vis_obj->name, msg->name, 80*sizeof(char) );
     vis_obj->id = msg->id;
@@ -135,7 +135,7 @@ object_manager_init_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
   } else { // if already in list, re-initialize
     printf("object re-allocating\n");
 
-    vis_object_item_t * vis_obj = &(list_of_objects[index]);
+    vis_object_item_t * vis_obj = &(list_of_objects[obj_index]);
 
     // first free
     free_vis_object(vis_obj->type, vis_obj->obj_ptr );
@@ -157,12 +157,12 @@ pose_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
              const vis_pose_t *msg, 
              void *user __attribute__((unused)))
 {
-  int index = index_from_object_id(msg->id);
+  int obj_index = index_from_object_id(msg->id);
 
-  if (index == -1)
+  if (obj_index == -1)
     printf("pose message recieved but object_manager_init not yet received for that ID :(\n");
   else {
-    vis_object_item_t * vis_obj = &(list_of_objects[index]);
+    vis_object_item_t * vis_obj = &(list_of_objects[obj_index]);
     switch (vis_obj->type){
     case simple_aircraft:
     {

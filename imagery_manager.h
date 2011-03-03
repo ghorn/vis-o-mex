@@ -55,9 +55,9 @@ void init_imagery(void);
 void manage_imagery(void);
 void update_imagery_origin(const gpsPhys_t * const gpsPhys);
 void get_imagery( image_tile_t * image_tile );
-void filename_of_ix_iy_zoom(char * filename, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level);
+void filename_of_ix_iy_zoom(char * filename, const uint32_t ix, const uint32_t iy, const uint8_t zoom_level_);
 void ix_iy_from_lat_lon_zoom( uint32_t * ix, uint32_t * iy,
                               const double lat, const double lon,
-                              const uint8_t zoom_level);
+                              const uint8_t zoom_level_);
 
 #endif //__IMAGERY_MANAGER_H__

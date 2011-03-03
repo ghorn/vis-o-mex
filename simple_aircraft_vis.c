@@ -234,7 +234,7 @@ draw_simple_aircraft( const simple_aircraft_t * const ac, int draw_at_origin)
 
 
 void
-draw_path_fade( const xyz_t * const xyz, const int index, float R, float G, float B, float A, const float width)
+draw_path_fade( const xyz_t * const xyz, const int ac_index, float R, float G, float B, float A, const float width)
 {
   glPushMatrix();
 
@@ -244,7 +244,7 @@ draw_path_fade( const xyz_t * const xyz, const int index, float R, float G, floa
   glLineWidth(width);
 
   glBegin(GL_LINE_STRIP);	
-  j = index;
+  j = ac_index;
   float nInv = 1.0/NUM_AC_VIS_HISTORY_POINTS;
   for (k=0;k<NUM_AC_VIS_HISTORY_POINTS;k++){
     j++;
