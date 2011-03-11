@@ -39,6 +39,8 @@ FEATURE_FLAGS = -DDT=\(3.0/100.0\)
 
 #FEATURE_FLAGS +=-DUSE_SPEECH
 
+OPTFLAGS = -O3
+
 ifeq ($(UNAME),Darwin)
 	LDFLAGS += -L/opt/local/lib
 	LDFLAGS += -L/usr/local/lib
@@ -49,7 +51,7 @@ ifeq ($(UNAME),Darwin)
 else
 	FEATUREFLAGS += -DLINUX
 	LDFLAGS += -lImlib2
-	OPTFLAGS += -O3 -march=native
+	OPTFLAGS += -march=native
 endif
 
 EXTOBJ ?= 
