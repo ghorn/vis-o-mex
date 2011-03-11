@@ -73,14 +73,16 @@ void
 init_visualizer_speech(){}
 
 void
-visualizer_say(const char * message)
+visualizer_say(const char * message __attribute__((unused)))
 {
+#ifdef USE_SPEECH
   char system_say_message[200];
   sprintf(system_say_message, "say '%s' &", message);
   int ret = system(system_say_message);
   if (ret == 10)
     return;
   return;
+#endif
 }
 
 
