@@ -30,7 +30,7 @@
 #include <string.h>
 #include <math.h>
 
-#include <path_follower_commands.h>
+#include <ap_types.h>
 
 #include "spline_trajectory_vis.h"
 #include "spline_utils.h"
