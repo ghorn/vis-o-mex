@@ -109,8 +109,7 @@ resize_window(int width, int height)
 
 
 static void
-manage_high_score( const est2User_t * const e2u, const rc_t * const rc )
-{
+manage_high_score( const est2User_t * const e2u, const rc_t * const rc ){
   static double time_autonomous_started;
   static uint8_t currently_autonomous = 0;
   
@@ -204,11 +203,9 @@ draw_scene()
 }
 
 
-void
-init_gl()
+static void
+init_gl(void)
 {
-  init_imagery();
-
   //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);         // This Will Clear The Background Color To Black
   glClearColor(0.5f, 0.5f, 0.5f, 1.0f);         // grey background
   //glClearColor(0.5216f, 0.839216f, 0.913725f, 1.0f);        // blue sky background
@@ -222,13 +219,11 @@ init_gl()
  
   glPointSize(3.0);
   glEnable(GL_POINT_SMOOTH);
-  
-  set_camera();
 }
 
 
-void
-setup_glut(){
+static void
+setup_glut(void){
   int dummyc = 1;
   char * dummyv = "";
   glutInit(&dummyc, &dummyv);
@@ -266,7 +261,6 @@ setup_glut(){
   glutKeyboardFunc(&key_pressed);
   glutMouseFunc(&mouse_clicked);
   glutMotionFunc(&mouse_moved);
-
 }
 
 int
@@ -274,15 +268,16 @@ main()
 {
   /* Initialize GLUT state - glut will take any command line arguments that pertain to it or 
      X Window - look at its documentation at http://reality.sgi.com/mjk/spec3/spec3.html */  
+  setup_glut();
+
+  init_gl();
 
   // initialize score
   current_score = 0;
   session_high_score = 0;
 
-  setup_glut();
-
-  init_gl( window_width, window_height);
-
+  init_imagery();
+  set_camera();
   init_visualizer_speech();
 
   /* Start Event Processing Engine */  
@@ -294,15 +289,9 @@ main()
 static uint64_t
 us_since_epoch()
 {
- 
   struct timeval tv;
- 
-  uint64_t micros = 0;
- 
   gettimeofday(&tv, NULL);  
-  micros =  ((uint64_t)tv.tv_sec) * 1000000 + tv.tv_usec;
- 
-  return micros;
+  return ((uint64_t)tv.tv_sec) * 1000000 + tv.tv_usec;
 }
 
 static void
