@@ -194,7 +194,6 @@ init_object_manager()
 
   // subscribe to the pose channel
   vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "pose");
-  vis_lcm_subscribe_chan(pose_t, &pose_handler, NULL, "emlc_pose_t");
 }
 
 
