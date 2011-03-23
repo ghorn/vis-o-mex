@@ -86,7 +86,6 @@ initialize_visualizer_telemetry(rc_t *rc_ext,
                                 sensors2Estimator_t *s2e_ext,
                                 system_energy_t * se)
 {
-//  ap_lcm_init(NULL);
   lcm_init("udpm://239.255.76.67:7667?ttl=1"); 
   ap_lcm_subscribe_chan(est2User_t, &est2UserHandler, e2u, "ap_est2User_t_e2u");
   ap_lcm_subscribe_chan(sensors2Estimator_t, &sensors2EstimatorHandler, s2e_ext, "ap_sensors2Estimator_t_s2e");
@@ -100,5 +99,6 @@ telemetry_periodic(void)
   vis_telemetry_send();
   lcm_check(vis_lcm.lcm, vis_lcm.fd);
   lcm_check(ap_lcm.lcm, ap_lcm.fd);
+  lcm_check(emlc_lcm.lcm, emlc_lcm.fd);
   lcm_check(simple_model_sim_lcm.lcm, simple_model_sim_lcm.fd);
 }

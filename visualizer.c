@@ -45,6 +45,7 @@
 #include "imagery_manager.h"
 #include "keyboard_mouse.h"
 #include "object_manager.h"
+#include "path_vis.h"
 #include "talking_visualizer.h"
 #include "simple_aircraft_vis.h"
 #include "simple_model_vis.h"
@@ -164,6 +165,7 @@ draw_scene()
     init_spline_trajectory_vis();
     init_wind_vis();
     init_simple_model_vis();
+    init_path_vis();
   }
 
   telemetry_periodic();
@@ -185,6 +187,8 @@ draw_scene()
   draw_wind_est( &e2u );
   draw_wind_vis( DT );
   draw_simple_model_vis();
+  draw_path_vis();
+
   draw_camera_focus();
 
   // satellite imagery

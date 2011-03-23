@@ -15,6 +15,7 @@ C_SRC = \
 	imagery_prober.c \
 	keyboard_mouse.c \
 	object_manager.c \
+	path_vis.c \
 	simple_aircraft_vis.c \
 	simple_model_vis.c \
 	spline_utils.c \
