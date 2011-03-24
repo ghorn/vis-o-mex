@@ -39,6 +39,7 @@ float disk_y[NUM_DISK_VERTICES];
 float disk_z[NUM_DISK_VERTICES];
 
 crosswind_telem_t crosswind_telem;
+hover_telem_t hover_telem;
 
 int got_first_vis = 0;
 
@@ -79,18 +80,18 @@ crosswind_telem_handler(const lcm_recv_buf_t *rbuf __attribute__((unused)),
   }
 }
 
+emlc_lcm_copy_handler(hover_telem_t);
+
 void
 init_path_vis()
 {
   emlc_lcm_subscribe_chan(crosswind_telem_t, &crosswind_telem_handler, NULL, "emlc_crosswind_telem_t_crosswind_telem");
+  emlc_lcm_subscribe_chan_cp(hover_telem_t, &hover_telem, "emlc_hover_telem_t_hover_telem");
 }
 
-void
-draw_path_vis()
+static void
+draw_crosswind(void)
 {
-  if (!got_first_vis)
-    return;
-
   glPushMatrix();
 
   // draw x0
@@ -108,6 +109,30 @@ draw_path_vis()
     glVertex3f( disk_x[k], disk_y[k], disk_z[k] );
   glEnd();
 
+  glPopMatrix();
+}
+
+static void
+draw_hover(void)
+{
+  glPushMatrix();
+
+  // draw Xn_req
+  glPointSize( 10 );
+  glBegin(GL_POINTS);
+  glColor4f( 0.0f, 1.0f, 0.0f, 0.4f );
+  glVertex3f( hover_telem.Xn_req.x, hover_telem.Xn_req.y, hover_telem.Xn_req.z );
+  glEnd();
 
   glPopMatrix();
+}
+
+void
+draw_path_vis()
+{
+  if (!got_first_vis)
+    return;
+
+  draw_crosswind();
+  draw_hover();
 }
