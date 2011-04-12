@@ -86,7 +86,7 @@ draw_tether()
   glPointSize( 4 );
   glBegin(GL_POINTS);
   glColor4f( 0.0f, 1.0f, 0.0f, 0.4f );
-  for (int k=0; k<tether_vis.num_masses-1; k++){
+  for (int k=0; k<tether_vis.num_masses; k++){
     glVertex3f( (tether_vis.x)[k], (tether_vis.y)[k], (tether_vis.z)[k]);
   }
   glEnd();
