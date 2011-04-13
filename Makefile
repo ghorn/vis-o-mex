@@ -29,7 +29,7 @@ C_SRC = \
 
 OBJ = $(C_SRC:.c=.o) 
 WARNINGFLAGS ?= -Wall -Wextra -Werror -Wshadow
-DEBUGFLAGS ?= -g -DDEBUG # -pg to generate profiling information
+DEBUGFLAGS ?= -g
 
 ## Run with ATLAS if available; likely uses SSE2/3/4 to do matrix math
 BLAS ?= `bash -c 'if gcc -latlas 2>&1 | grep -q "cannot find -latlas"; then echo \-lgslcblas; else echo \-lcblas \-latlas; fi'`
@@ -44,9 +44,7 @@ OPTFLAGS = -O3
 
 ifeq ($(UNAME),Darwin)
 	LDFLAGS += -L/opt/local/lib
-	LDFLAGS += -L/usr/local/lib
 	INCLUDES += -I/opt/local/include
-	INCLUDES += -isystem /usr/local/include
 	FEATUREFLAGS += -DOSX
 	LDFLAGS += -limlib2
 else
@@ -55,13 +53,16 @@ else
 	OPTFLAGS += -march=native
 endif
 
+# conftron
 EXTOBJ ?= 
-
-
 CONFTRON_DIR ?= $(AP_PROJECT_ROOT)/conftron
 include $(CONFTRON_DIR)/includes
+
+# mathlib
 MATHLIB_DIR ?= $(AP_PROJECT_ROOT)/mathlib
-include $(MATHLIB_DIR)/includes
+LDFLAGS += -L$(MATHLIB_DIR) -lmathlib
+INCLUDES += -I$(MATHLIB_DIR)
+
 
 CFLAGS ?= $(WARNINGFLAGS) $(DEBUGFLAGS) $(INCLUDES) $(OPTFLAGS) $(FEATURE_FLAGS) -std=gnu99 
 CC ?= gcc
@@ -71,7 +72,6 @@ CC ?= gcc
 $(PROJ): $(OBJ) $(HDR) ext
 	@echo LD $@
 	$(Q)$(CC) $(CFLAGS) $(OBJ) $(EXTOBJ) $(LDFLAGS) -o $@ 
-
 
 ext:
 	$(Q)$(MAKE) -C $(MATHLIB_DIR) 
